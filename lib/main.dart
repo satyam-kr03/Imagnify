@@ -31,7 +31,7 @@ class ImageDisplayPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Image Display'),
+        title: Text('Generated Image'),
       ),
       body: Center(
         child: Image.network(imageUrl),
