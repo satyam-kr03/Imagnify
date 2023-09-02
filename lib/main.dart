@@ -234,7 +234,7 @@ class _MidjourneyGeneratorPageState extends State<MidjourneyGeneratorPage> {
             TextField(
               controller: _textController,
               decoration: InputDecoration(
-                labelText: 'Enter Text',
+                labelText: 'Enter Prompt',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -335,7 +335,7 @@ class _StableDiffusionGeneratorPageState extends State<StableDiffusionGeneratorP
             TextField(
               controller: _textController,
               decoration: InputDecoration(
-                labelText: 'Enter Text',
+                labelText: 'Enter Prompt',
                 border: OutlineInputBorder(),
               ),
             ),
