@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share/share.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:async';
+import 'dart:io';
+import 'dart:typed_data';
 
 void main() {
   runApp(const MyApp());
@@ -22,6 +29,38 @@ class MyApp extends StatelessWidget {
   }
 }
 
+Future<void> downloadImage(String link) async {
+  var response = await http.get(Uri.parse(link));
+  final bytes = response.bodyBytes;
+  final directory = await getTemporaryDirectory();
+  final path = '${directory.path}/image.jpg';
+  final file = File(path);
+  await file.writeAsBytes(bytes);
+
+  final result = await ImageGallerySaver.saveFile(path);
+  if (result['isSuccess']) {
+    Fluttertoast.showToast(msg: 'Image saved to gallery');
+  } else {
+    Fluttertoast.showToast(msg: 'Failed to save image to gallery');
+  }
+}
+
+Future<void> shareImage(String link) async {
+  var response = await http.get(Uri.parse(link));
+  final bytes = response.bodyBytes;
+
+  final directory = await getTemporaryDirectory();
+  final path = '${directory.path}/image.jpg';
+  final file = File(path);
+  await file.writeAsBytes(bytes);
+
+  // Share the image using another app
+  // You can customize the share message and subject as per your requirements
+  await Share.shareFiles([path],
+      text: 'Check out this image!',
+      subject: 'Sharing an image');
+}
+
 class ImageDisplayPage extends StatelessWidget {
   final String imageUrl;
 
@@ -33,8 +72,30 @@ class ImageDisplayPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Generated Image'),
       ),
-      body: Center(
-        child: Image.network(imageUrl),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Center(
+            child: Image.network(imageUrl),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.download),
+                onPressed: () async {
+                await downloadImage(imageUrl);
+              },
+              ),
+              IconButton(
+                icon: Icon(Icons.share),
+                onPressed: () async {
+                  await shareImage(imageUrl);
+                },
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
