@@ -3,6 +3,7 @@
 ## Description
 
 A Flutter app which allows users to generate images using Midjourney and Stable Diffusion APIs for free along with download and share functionality.
+![7](https://github.com/satyam-kr03/Imagnify/assets/126661857/f7196ebe-9f5c-4be9-a0ce-34438c88ed67)
 
 ## Installation
 
