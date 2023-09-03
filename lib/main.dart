@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'AI Image Generator',
       theme: ThemeData(
-        primarySwatch: Colors.blue, // You can change the primary color here
+        primarySwatch: Colors.blue, 
         brightness: Brightness.dark,
       ),
       home: const GeneratorOptionsPage(),
@@ -54,8 +54,6 @@ Future<void> shareImage(String link) async {
   final file = File(path);
   await file.writeAsBytes(bytes);
 
-  // Share the image using another app
-  // You can customize the share message and subject as per your requirements
   await Share.shareFiles([path],
       text: 'Check out this image!',
       subject: 'Sharing an image');
@@ -166,14 +164,13 @@ class MidjourneyGeneratorPage extends StatefulWidget {
 class _MidjourneyGeneratorPageState extends State<MidjourneyGeneratorPage> {
   String enteredText = '';
   String apiResponse = '';
-  bool isLoading = false; // Track the loading state
+  bool isLoading = false; 
 
   final TextEditingController _textController = TextEditingController();
 
   void _handleSubmit() async {
     final enteredText = _textController.text.replaceAll(' ', '%20');
 
-    // Set isLoading to true to show the loading indicator
     setState(() {
       isLoading = true;
     });
@@ -190,25 +187,21 @@ class _MidjourneyGeneratorPageState extends State<MidjourneyGeneratorPage> {
       final responseData = json.decode(response.body);
       final output = responseData['output'];
 
-      // Check if the API response contains an image URL
       if (output != null && output is String && output.isNotEmpty) {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => ImageDisplayPage(imageUrl: output),
         ));
       } else {
-        // Handle the case where the API response doesn't contain an image URL
         setState(() {
           this.apiResponse = 'No image URL found in the API response.';
         });
       }
     } else {
-      // Handle API request error
       setState(() {
         this.apiResponse = 'Error occurred while making the API request.';
       });
     }
 
-    // Set isLoading back to false to hide the loading indicator
     setState(() {
       isLoading = false;
     });
@@ -267,14 +260,13 @@ class StableDiffusionGeneratorPage extends StatefulWidget {
 class _StableDiffusionGeneratorPageState extends State<StableDiffusionGeneratorPage> {
   String enteredText = '';
   String apiResponse = '';
-  bool isLoading = false; // Track the loading state
+  bool isLoading = false; 
 
   final TextEditingController _textController = TextEditingController();
 
   void _handleSubmit() async {
     final enteredText = _textController.text.replaceAll(' ', '%20');
 
-    // Set isLoading to true to show the loading indicator
     setState(() {
       isLoading = true;
     });
@@ -291,25 +283,21 @@ class _StableDiffusionGeneratorPageState extends State<StableDiffusionGeneratorP
       final responseData = json.decode(response.body);
       final output = responseData['output'];
 
-      // Check if the API response contains an image URL
       if (output != null && output is String && output.isNotEmpty) {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => ImageDisplayPage(imageUrl: output),
         ));
       } else {
-        // Handle the case where the API response doesn't contain an image URL
         setState(() {
           this.apiResponse = 'No image URL found in the API response.';
         });
       }
     } else {
-      // Handle API request error
       setState(() {
         this.apiResponse = 'Error occurred while making the API request.';
       });
     }
 
-    // Set isLoading back to false to hide the loading indicator
     setState(() {
       isLoading = false;
     });
